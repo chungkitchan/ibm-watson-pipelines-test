@@ -269,7 +269,9 @@ class WatsonPipelines(BaseService):
         print(''.join(traceback.format_stack()[-4:]))
         #pprint(vars(request))
         #pprint(dir(request))
-        return super(WatsonPipelines,self).send(request,**kwargs)
+        resp = super(WatsonPipelines,self).send(request,**kwargs)
+        print(f"send return type:({type(resp)})")
+        return resp
 
     def _get_authenticator_from_api_key(self, apikey: str, url: str) -> Tuple[Authenticator, bool]:
         validate_type(apikey, "api_key", str)
