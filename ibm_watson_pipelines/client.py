@@ -167,6 +167,9 @@ class WatsonPipelines(BaseService):
             authenticator=authenticator,
             disable_ssl_verification=not is_public,
         )
+        print(f"authenticator: {authenticator}")
+        print(f"configure_service: {service_name}")
+        print(f"is_public: {is_public}")
         self.authenticator = authenticator
         self.configure_service(service_name)
         self.is_public = is_public
