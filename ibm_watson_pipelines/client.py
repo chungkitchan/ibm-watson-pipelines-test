@@ -361,6 +361,8 @@ class WatsonPipelines(BaseService):
 
         name = 'OF_CPD_API_URL'
         url = os.environ.get('OF_CPD_API_URL', None)
+        if url is not None:
+            print(f"URL is from os.environ['OF_CPD_API_URL']: {os.environ['OF_CPD_API_URL']}")
 
         if url is None:
             name = 'RUNTIME_ENV_APSX_URL'
