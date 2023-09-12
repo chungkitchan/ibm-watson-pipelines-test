@@ -11,6 +11,7 @@ import io
 import json
 import os
 import warnings
+import traceback
 from abc import abstractmethod, ABC
 from collections import abc
 from enum import Enum
@@ -264,6 +265,7 @@ class WatsonPipelines(BaseService):
     def send(self, request: requests.Request, **kwargs) -> DetailedResponse:
         print(type(request))
         pprint(request)
+        traceback.print_stack()
         #pprint(vars(request))
         #pprint(dir(request))
         return super(WatsonPipelines,self).send(request,**kwargs)
