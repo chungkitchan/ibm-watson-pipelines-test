@@ -89,7 +89,6 @@ class ComponentMetadata:
 
 class WatsonPipelines(BaseService):
     """Watson Pipelines client
-
     Communicates with Watson Pipelines to provide some high-level utilities.
 
     Arguments:
@@ -260,6 +259,10 @@ class WatsonPipelines(BaseService):
             is_public = False
             iam_url = url + "/icp4d-api/v1/authorize"
         return iam_url, is_public
+    
+    def send(self, request: requests.Request, **kwargs) -> DetailedResponse:
+        print(request.method,request.url,request.headers,request.params,request.json,request.data)
+        super(WatsonPipelines,self).send(request,**kwargs)
 
     def _get_authenticator_from_api_key(self, apikey: str, url: str) -> Tuple[Authenticator, bool]:
         validate_type(apikey, "api_key", str)
