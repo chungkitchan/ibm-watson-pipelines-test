@@ -270,10 +270,8 @@ class WatsonPipelines(BaseService):
         #pprint(vars(request))
         #pprint(dir(request))
         resp = super(WatsonPipelines,self).send(request,**kwargs)
-        if type(resp.response)!='stream':
-            print(f"Response:({resp.response})")
-        else:
-            print(f"Response is stream...")
+        pprint(vars(resp))
+        pprint(dir(resp))
         return resp
 
     def _get_authenticator_from_api_key(self, apikey: str, url: str) -> Tuple[Authenticator, bool]:
