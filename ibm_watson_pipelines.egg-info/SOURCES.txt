@@ -1,0 +1,17 @@
+LICENSE
+README.md
+setup.py
+ibm_watson_pipelines/__init__.py
+ibm_watson_pipelines/client.py
+ibm_watson_pipelines/client_errors.py
+ibm_watson_pipelines/cpd_paths.py
+ibm_watson_pipelines/utils.py
+ibm_watson_pipelines/version.py
+ibm_watson_pipelines.egg-info/PKG-INFO
+ibm_watson_pipelines.egg-info/SOURCES.txt
+ibm_watson_pipelines.egg-info/dependency_links.txt
+ibm_watson_pipelines.egg-info/requires.txt
+ibm_watson_pipelines.egg-info/top_level.txt
+test/test_cpd_path_methods.py
+test/test_cpd_path_parsing.py
+test/test_storage_client.py
