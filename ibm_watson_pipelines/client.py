@@ -356,6 +356,7 @@ class WatsonPipelines(BaseService):
         return scope
 
     def _get_cpd_api_url(self, url: str = None) -> str:
+        print(f"_get_cpd_api_url({url}) is called....")
         if url is not None:
             return url
 
@@ -366,10 +367,12 @@ class WatsonPipelines(BaseService):
 
         if url is None:
             name = 'RUNTIME_ENV_APSX_URL'
+            print(f"URL is from os.environ['RUNTIME_ENV_APSX_URL']: {os.environ['RUNTIME_ENV_APSX_URL']}")
             url = os.environ.get('RUNTIME_ENV_APSX_URL', None)
 
         if url is None:
             name = 'DEFAULT_CPD_API_URL'
+            print(f"url is from DEFAULT_CPD_API_URL: {DEFAULT_CPD_API_URL}")
             url = self.DEFAULT_CPD_API_URL
 
         validate_type(url, name, str)
