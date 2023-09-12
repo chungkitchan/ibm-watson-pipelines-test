@@ -181,6 +181,7 @@ class WatsonPipelines(BaseService):
             bearer_token: Optional[str],
             url: str,
     ) -> Tuple[Authenticator, bool]:
+        print(f"auth_method: {auth_method}, bearer_token: {bearer_token}, url: {url}")
         def censor_value(value: Optional[Any]) -> Optional[str]:
             if value is None:
                 return None
@@ -238,6 +239,7 @@ class WatsonPipelines(BaseService):
 
     def _get_iam_url(self, url: str) -> Tuple[str, bool]:
         validate_type(url, "url", str)
+        print(f"_get_iam_url()... url: {url}")
         if not url.startswith("https://"):
             warnings.warn("'url' doesn't start with https")
 
@@ -263,6 +265,7 @@ class WatsonPipelines(BaseService):
             # assume it's CPD
             is_public = False
             iam_url = url + "/icp4d-api/v1/authorize"
+            print(f"in _get_iam_url()... iam_url is None set to {iam_url}")
         return iam_url, is_public
     
     def send(self, request: requests.Request, **kwargs) -> DetailedResponse:
@@ -292,6 +295,7 @@ class WatsonPipelines(BaseService):
     def _get_authenticator_from_bearer_token(self, bearer_token: str, url: str) -> Tuple[Authenticator, bool]:
         validate_type(bearer_token, "bearer_token", str)
         iam_url, is_public = self._get_iam_url(url)
+        print(f"_get_authenticator_from_bearer_token() is called..., iam_url: {iam_url}")
         auth = BearerTokenAuthenticator(bearer_token=bearer_token)
         self.auth_method = AuthMethod.BEARER_TOKEN
         # to stay consistent with `apikey`, WSPipelines directly gets the `bearer_token` field
