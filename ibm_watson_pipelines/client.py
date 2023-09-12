@@ -265,7 +265,8 @@ class WatsonPipelines(BaseService):
     def send(self, request: requests.Request, **kwargs) -> DetailedResponse:
         print(type(request))
         pprint(request)
-        traceback.print_stack()
+        #traceback.print_stack()
+        print(''.join(traceback.format_stack()[-4:]))
         #pprint(vars(request))
         #pprint(dir(request))
         return super(WatsonPipelines,self).send(request,**kwargs)
