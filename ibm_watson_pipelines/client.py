@@ -262,8 +262,10 @@ class WatsonPipelines(BaseService):
         return iam_url, is_public
     
     def send(self, request: requests.Request, **kwargs) -> DetailedResponse:
-        pprint(vars(request))
-        pprint(dir(request))
+        print(type(request))
+        pprint(request)
+        #pprint(vars(request))
+        #pprint(dir(request))
         super(WatsonPipelines,self).send(request,**kwargs)
 
     def _get_authenticator_from_api_key(self, apikey: str, url: str) -> Tuple[Authenticator, bool]:
