@@ -582,6 +582,7 @@ class WatsonPipelines(BaseService):
 
         if cpd_scope is None:
             cpd_scope, name = get_scope_from_env_var()
+            print(f"cpd_scope is None, assigned: {cpd_scope}")
             if cpd_scope is None:
                 raise MissingValueError(name)
 
