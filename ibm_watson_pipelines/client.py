@@ -149,7 +149,7 @@ class WatsonPipelines(BaseService):
 
         return self._store_results_via_client(storage_client, outputs, output_artifacts)
 
-   def _get_scope_from_uri(self, uri: str, *, context: Optional[str] = None):
+    def _get_scope_from_uri(self, uri: str, *, context: Optional[str] = None):
         headers = {
             "Accept": "application/json",
         }
