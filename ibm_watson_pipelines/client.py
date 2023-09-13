@@ -590,7 +590,7 @@ class WatsonPipelines(BaseService):
         if isinstance(cpd_scope, str):
             try:
                 cpd_scope = CpdScope.from_string(cpd_scope)
-                print(f"cpd_scope is str... calling CpdScope.from_string()... {cpd_scope}")
+                print(f"cpd_scope is str... calling CpdScope.from_string()... {type(cpd_scope)}")
             except Exception as ex:
                 raise OfCpdPathError(cpd_scope, reason = ex)
 
