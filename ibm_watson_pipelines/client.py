@@ -1,6 +1,7 @@
 import os
 
 from collections import abc
+from abc import ABC
 from enum import Enum
 from typing import Tuple, Optional, Any, Mapping, Union
 
@@ -227,6 +228,7 @@ class WatsonPipelines(BaseService):
 
 class LocalFileSystemClient(StorageClient):
     def __init__(
+        print(f"INFO: ********** in class LocalFileSystemClient() **************")
         self,
         cpd_orchestration: WatsonPipelines
     ):
@@ -254,3 +256,21 @@ class LocalFileSystemClient(StorageClient):
         return DetailedResponse(
             response=response
         )
+    
+class StorageClient(ABC):
+    def store_result(self, output_name: str, output_key: str, value: Any) -> DetailedResponse:
+        validate_type(output_name, "output_name", str)
+        validate_type(output_key, "output_key", str)
+
+        if isinstance(value, io.TextIOBase):
+            # not supported yet
+            raise FilesResultsNotSupportedError(output_name)
+        elif isinstance(value, str):
+            str_value = value
+        else:
+            str_value = json.dumps(value)
+
+        return self._store_str_result(output_name, output_key, str_value)
+
+    @abstractmethod
+    def _store_str_result(self, output_name: str, output_key: str, value: str) -> DetailedResponse: ...
