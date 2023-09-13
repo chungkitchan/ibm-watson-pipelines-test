@@ -311,7 +311,6 @@ class WatsonPipelines(BaseService):
         output_artifacts = os.environ.get('OF_OUTPUT_ARTIFACTS', None)
         if output_artifacts is None:
             raise MissingValueError("OF_OUTPUT_ARTIFACTS")
-
         try:
             output_artifacts = json.loads(output_artifacts)
         except json.decoder.JSONDecodeError as ex:
