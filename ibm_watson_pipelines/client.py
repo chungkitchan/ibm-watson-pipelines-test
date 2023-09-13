@@ -8,7 +8,7 @@ from typing import Tuple, Optional, Any, Mapping, Union
 from ibm_cloud_sdk_core import BaseService, DetailedResponse, ApiException
 from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenticator
 from .utils import validate_type
-from .client_errors import MissingValueError
+from .client_errors import MissingValueError, FilesResultsNotSupportedError, JsonParsingError
 from .cpd_paths import CpdScope
 
 class AuthMethod(Enum):
