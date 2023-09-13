@@ -157,8 +157,29 @@ class WatsonPipelines(BaseService):
     ) -> str:
         guid = get_scope_response_field(scope_response, 'entity.storage.guid', str)
         return guid
-    
 
+    def _store_results_via_client(
+        self,
+        storage_client: 'StorageClient',
+        outputs: Mapping[str, Any], # output name -> value
+        output_artifacts: Optional[Mapping[str, str]] = None,
+    ) -> DetailedResponse:
+        if output_artifacts is None:
+            output_artifacts = {
+                out: self._default_path_to_result(out) for out in outputs.keys()
+            }
+
+        response = None
+        for output_name, output_value in outputs.items():
+            if output_name not in output_artifacts:
+                print(
+                    f'Variable {output_name} is not on the list of output variables defined by pipeline component, '
+                    f'check your pipeline definition for possible typos and omissions')
+                continue
+
+            result_key = output_artifacts[output_name]
+            response = storage_client.store_result(output_name, result_key, output_value)
+        return response
 
     def _get_scope_from_uri(self, uri: str, *, context: Optional[str] = None):
         headers = {
