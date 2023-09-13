@@ -626,6 +626,7 @@ class WatsonPipelines(BaseService):
         self,
         outputs: Mapping[str, Any], # output name -> value
     ) -> DetailedResponse:
+        print(f"********** store_results() start... *********")
         """Store notebook's results."""
         validate_type(outputs, "outputs", abc.Mapping)
         for key, value in outputs.items():
@@ -662,6 +663,8 @@ class WatsonPipelines(BaseService):
             for out_name, out_path in output_artifacts.items():
                 print(f'    - "{out_name}": {out_path}')
             storage_client = LocalFileSystemClient(self)
+        
+        print(f"********** store_results() start... *********")
 
         return self._store_results_via_client(storage_client, outputs, output_artifacts)
 
