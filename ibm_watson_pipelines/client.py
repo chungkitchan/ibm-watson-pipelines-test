@@ -3,7 +3,7 @@ import os,io,json,base64
 from collections import abc
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Tuple, Optional, Any, Mapping, Union, cast
+from typing import Tuple, Optional, Any, Mapping, Union, cast, Protocol
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse, ApiException
 from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenticator
