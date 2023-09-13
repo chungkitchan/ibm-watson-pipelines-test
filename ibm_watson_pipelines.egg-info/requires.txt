@@ -1,5 +1,4 @@
 ibm_cloud_sdk_core>=3.11.3
-ibm-cos-sdk>=2.10.0
 attrs>=21.2.0
 requests>=2.25.1
 responses>=0.13.4
