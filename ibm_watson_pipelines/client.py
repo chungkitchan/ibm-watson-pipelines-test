@@ -649,6 +649,7 @@ class WatsonPipelines(BaseService):
 
         cpd_scope = self.get_scope_cpdpath()  # needed for CPD variant anyway
         scope = self.get_scope(cpd_scope)
+        print(f"INFO: ******* get_scope()... scope type: {scope} ********")
 
         storage_client: StorageClient
 
