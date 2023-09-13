@@ -228,10 +228,10 @@ class WatsonPipelines(BaseService):
 
 class LocalFileSystemClient(StorageClient):
     def __init__(
-        print(f"INFO: ********** in class LocalFileSystemClient() **************")
         self,
         cpd_orchestration: WatsonPipelines
     ):
+        print(f"INFO: ********** in class LocalFileSystemClient() **************")
         validate_type(cpd_orchestration, "cpd_orchestration", WatsonPipelines)
         self.cpd_orchestration = cpd_orchestration
 
