@@ -121,9 +121,10 @@ class WatsonPipelines(BaseService):
             output_artifacts = self.get_output_artifact_map()
         except MissingValueError:
             test_mode = True
-            output_artifacts = {
-                out: self._default_path_to_result(out) for out in outputs.keys()
-            }
+            raise Exception("Running in test mode in Jupyter Notebook is not supported")
+            #output_artifacts = {
+            #    out: self._default_path_to_result(out) for out in outputs.keys()
+            #}
 
         if test_mode:
             print("Running outside of Watson Pipelines - storing results in the local filesystem for testing purposes...")
