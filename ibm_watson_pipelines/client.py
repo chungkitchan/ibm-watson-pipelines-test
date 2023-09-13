@@ -148,6 +148,18 @@ class WatsonPipelines(BaseService):
 
         return self._store_results_via_client(storage_client, outputs, output_artifacts)
 
+    def get_project(self, scope_id: str, *, context: Optional[str] = None) -> dict:
+        """Get project of given ID."""
+        uri = urljoin("/v2/projects/", scope_id)
+        scope = self._get_scope_from_uri(uri, context=context)
+        return scope
+
+    def get_space(self, scope_id: str, *, context: Optional[str] = None) -> dict:
+        """Get space of given ID."""
+        uri = urljoin("/v2/spaces/", scope_id)
+        scope = self._get_scope_from_uri(uri, context=context)
+        return scope
+
     def get_scope(
             self,
             cpd_scope: Optional[Union[str, CpdScope]] = None
