@@ -1,4 +1,5 @@
-import os,io,json,base64,requests
+import os,io,json,base64
+#,requests
 
 from collections import abc
 from abc import ABC, abstractmethod
@@ -7,7 +8,7 @@ from typing import Tuple, Optional, Any, Mapping, Union, cast, Protocol
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse, ApiException
 from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenticator
-from .utils import validate_type
+from .utils import validate_type, get_scope_response_field
 from .client_errors import MissingValueError, FilesResultsNotSupportedError, JsonParsingError
 from .cpd_paths import CpdScope
 from urllib.parse import urljoin
@@ -133,9 +134,10 @@ class WatsonPipelines(BaseService):
         storage_client: StorageClient
 
         if self.is_public:
-            props = self._extract_storage_properties(scope)
-            cos_config = StorageConfig.from_storage_properties(props)
-            storage_client = CosClient(self, cos_config)
+            raise Exception("Unsupported public instance")
+            #props = self._extract_storage_properties(scope)
+            #cos_config = StorageConfig.from_storage_properties(props)
+            #storage_client = CosClient(self, cos_config)
         else:
             guid = self._extract_storage_guid(scope)
             storage_client = CamsClient(self, cpd_scope, guid)
@@ -148,6 +150,16 @@ class WatsonPipelines(BaseService):
             storage_client = LocalFileSystemClient(self)
 
         return self._store_results_via_client(storage_client, outputs, output_artifacts)
+
+    @classmethod
+    def _extract_storage_guid(
+            cls,
+            scope_response: dict
+    ) -> str:
+        guid = get_scope_response_field(scope_response, 'entity.storage.guid', str)
+        return guid
+    
+
 
     def _get_scope_from_uri(self, uri: str, *, context: Optional[str] = None):
         headers = {
