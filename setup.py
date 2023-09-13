@@ -26,10 +26,10 @@ setuptools.setup(
         # 'ibm-cos-sdk>=2.10.0',
         'attrs>=21.2.0',
         # 'kfp>=1.8.11,<2.0.0',
-        'requests>=2.25.1',
-        'responses>=0.13.4',
+        #'requests>=2.25.1',
+        #'responses>=0.13.4',
         # 'pytest>=6.2.5',
-        'typing-extensions>=3.7.4',
+        #'typing-extensions>=3.7.4',
     ],
     include_package_data=True,
 )
