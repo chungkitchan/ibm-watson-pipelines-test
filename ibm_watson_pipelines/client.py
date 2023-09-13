@@ -1,4 +1,4 @@
-import os,io,json,base64
+import os,io,json,base64,requests
 
 from collections import abc
 from abc import ABC, abstractmethod
@@ -148,6 +148,32 @@ class WatsonPipelines(BaseService):
             storage_client = LocalFileSystemClient(self)
 
         return self._store_results_via_client(storage_client, outputs, output_artifacts)
+
+   def _get_scope_from_uri(self, uri: str, *, context: Optional[str] = None):
+        headers = {
+            "Accept": "application/json",
+        }
+        params = {}
+        if context is not None:
+            params["context"] = context
+
+        scope_request = self.prepare_request('GET', uri, headers=headers, params=params)
+        # BaseService has some type signature problems here
+        scope_request = cast(requests.Request, scope_request)
+
+        scope_response = self.send(scope_request)
+
+        if isinstance(scope_response.result, dict):
+            scope = scope_response.result
+        else:
+            try:
+                scope = json.loads(scope_response.result.content)
+            except json.decoder.JSONDecodeError as ex:
+                if hasattr(scope_response.result, 'content'):
+                    raise JsonParsingError(scope_response.result.content, ex)
+                else:
+                    raise JsonParsingError(scope_response.result, ex)
+        return scope
 
     def get_project(self, scope_id: str, *, context: Optional[str] = None) -> dict:
         """Get project of given ID."""
