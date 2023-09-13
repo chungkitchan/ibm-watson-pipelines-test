@@ -10,6 +10,7 @@ from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenti
 from .utils import validate_type
 from .client_errors import MissingValueError, FilesResultsNotSupportedError, JsonParsingError
 from .cpd_paths import CpdScope
+from urllib.parse import urljoin
 
 class AuthMethod(Enum):
     APIKEY = 'apikey'
