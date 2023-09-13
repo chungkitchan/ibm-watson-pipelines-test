@@ -1,4 +1,4 @@
-import os,io,json
+import os,io,json,base64
 
 from collections import abc
 from abc import ABC, abstractmethod
