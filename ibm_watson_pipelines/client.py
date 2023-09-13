@@ -7,7 +7,7 @@ from typing import Tuple, Optional, Any, Mapping, Union, cast, Protocol
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse, ApiException
 from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenticator
-from .utils import validate_type, get_scope_response_field
+from .utils import validate_type, get_scope_response_field, get_query_params_from_scope
 from .client_errors import MissingValueError, FilesResultsNotSupportedError, JsonParsingError
 from .cpd_paths import CpdScope
 from urllib.parse import urljoin
@@ -356,3 +356,40 @@ class LocalFileSystemClient(StorageClient):
             response=response
         )
     
+class CamsClient(StorageClient):
+    def __init__(
+        self,
+        cpd_orchestration: WatsonPipelines,
+        scope: CpdScope,
+        guid: str,
+    ):
+        validate_type(cpd_orchestration, "cpd_orchestration", WatsonPipelines)
+        validate_type(scope, "scope", CpdScope)
+        validate_type(guid, "guid", str)
+
+        self.cpd_orchestration = cpd_orchestration
+        self.scope = scope
+        self.guid = guid
+
+    def _store_str_result(self, output_name: str, output_key: str, value: str) -> DetailedResponse:
+        headers = {
+            "Accept": "application/json",
+        }
+
+        params = get_query_params_from_scope(self.scope)
+
+        if self.scope.context is not None and self.scope.context != '':
+            params["context"] = self.scope.context
+
+        asset_uri_prefix = '/v2/asset_files/'
+        asset_file_uri = quote(output_key, safe='')
+        uri = urljoin(asset_uri_prefix, asset_file_uri)
+
+        files = {
+            "file": (output_key.split('/')[-1], value, "application/octet-stream")
+        }
+
+        req = self.cpd_orchestration.prepare_request('PUT', uri, headers=headers, params=params, files=files)
+        req = cast(requests.Request, req)
+        res = self.cpd_orchestration.send(req)
+        return res
