@@ -327,6 +327,19 @@ class WatsonPipelines(BaseService):
             validate_type(output_artifact, f"OF_OUTPUT_ARTIFACTS[{output_name}]", str)
         output_artifacts = cast(Mapping[str, str], output_artifacts)
         return output_artifacts
+    
+    def send(self, request: requests.Request, **kwargs) -> DetailedResponse:
+        print("INFO *************** In send()... *****************")
+        pprint(request)
+        #traceback.print_stack()
+        print(''.join(traceback.format_stack()[-4:]))
+        #pprint(vars(request))
+        #pprint(dir(request))
+        resp = super(WatsonPipelines,self).send(request,**kwargs)
+        pprint(vars(resp))
+        pprint(dir(resp))
+        print("*************** In send()... *****************")
+        return resp
 
 class StorageClient(ABC):
     def store_result(self, output_name: str, output_key: str, value: Any) -> DetailedResponse:
