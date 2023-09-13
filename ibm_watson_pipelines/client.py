@@ -148,6 +148,38 @@ class WatsonPipelines(BaseService):
 
         return self._store_results_via_client(storage_client, outputs, output_artifacts)
 
+    def get_scope(
+            self,
+            cpd_scope: Optional[Union[str, CpdScope]] = None
+    ) -> dict:
+        """Get scope given its CPDPath."""
+        cpd_scope = self.get_scope_cpdpath(cpd_scope)
+
+        class ScopeGetter(Protocol):
+            @abstractmethod
+            def __call__(self, scope_id: str, *, context: Optional[str] = None) -> dict: ...
+
+        scope_type_map: Mapping[str, ScopeGetter] = {
+            'projects': self.get_project,
+            'spaces': self.get_space,
+        }
+
+        scope_getter = scope_type_map.get(cpd_scope.scope_type(), None)
+        if scope_getter is None:
+            li = ', '.join(scope_type_map.keys())
+            msg = "Handling scopes other than {} is not supported yet!".format(li)
+            raise NotImplementedError(msg)
+
+        ctx = cpd_scope.context()
+        if ctx == '':
+            ctx = None
+
+        if cpd_scope.scope_id() is None:
+            raise RuntimeError("CpdScope in get_scope cannot be query-type")
+
+        scope = scope_getter(cpd_scope.scope_id(), context=ctx)
+        return scope
+
     @classmethod
     def get_scope_cpdpath(
         cls,
