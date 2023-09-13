@@ -10,7 +10,7 @@ from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenti
 from .utils import validate_type, get_scope_response_field, get_query_params_from_scope
 from .client_errors import MissingValueError, FilesResultsNotSupportedError, JsonParsingError
 from .cpd_paths import CpdScope
-from urllib.parse import urljoin
+from urllib.parse import urljoin, quote
 
 class AuthMethod(Enum):
     APIKEY = 'apikey'
