@@ -2,7 +2,7 @@ import os
 
 from collections import abc
 from enum import Enum
-from typing import Tuple, Optional, Any, Mapping
+from typing import Tuple, Optional, Any, Mapping, Union
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse, ApiException
 from ibm_cloud_sdk_core.authenticators import  Authenticator,BearerTokenAuthenticator
