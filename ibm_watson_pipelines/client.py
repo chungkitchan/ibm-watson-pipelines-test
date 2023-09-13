@@ -225,6 +225,23 @@ class WatsonPipelines(BaseService):
         output_artifacts = cast(Mapping[str, str], output_artifacts)
         return output_artifacts
 
+class StorageClient(ABC):
+    def store_result(self, output_name: str, output_key: str, value: Any) -> DetailedResponse:
+        validate_type(output_name, "output_name", str)
+        validate_type(output_key, "output_key", str)
+
+        if isinstance(value, io.TextIOBase):
+            # not supported yet
+            raise FilesResultsNotSupportedError(output_name)
+        elif isinstance(value, str):
+            str_value = value
+        else:
+            str_value = json.dumps(value)
+
+        return self._store_str_result(output_name, output_key, str_value)
+
+    @abstractmethod
+    def _store_str_result(self, output_name: str, output_key: str, value: str) -> DetailedResponse: ...
 
 class LocalFileSystemClient(StorageClient):
     def __init__(
@@ -257,20 +274,3 @@ class LocalFileSystemClient(StorageClient):
             response=response
         )
     
-class StorageClient(ABC):
-    def store_result(self, output_name: str, output_key: str, value: Any) -> DetailedResponse:
-        validate_type(output_name, "output_name", str)
-        validate_type(output_key, "output_key", str)
-
-        if isinstance(value, io.TextIOBase):
-            # not supported yet
-            raise FilesResultsNotSupportedError(output_name)
-        elif isinstance(value, str):
-            str_value = value
-        else:
-            str_value = json.dumps(value)
-
-        return self._store_str_result(output_name, output_key, str_value)
-
-    @abstractmethod
-    def _store_str_result(self, output_name: str, output_key: str, value: str) -> DetailedResponse: ...
