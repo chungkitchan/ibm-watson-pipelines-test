@@ -2,8 +2,10 @@
 
 This is a scale down IBM Watson Pipelines Python client based on original code in PyPi package ibm_watson_pipelines
 
-This is tested in CPD 4.7.0 Watson Pipelines Jupyter notebook node
-It does not work in IBM cloud environment
+- This is tested in CPD 4.7.0 Watson Pipelines Jupyter notebook node
+- It does not work in IBM cloud environment
+- It does not run in non watson pipeline node
+- It only support store_results method
 
 ## Sample Code
 
